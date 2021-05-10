@@ -47,7 +47,7 @@ svg {
   justify-content: center;
   min-height: 100vh;
   flex-direction: column;
-  background: rgb(243, 243, 209);
+  background: rgb(243, 243, 204);
 }
 .kick-track,
 .snare-track,
@@ -56,7 +56,7 @@ svg {
   align-items: center;
   justify-content: center;
   width: 80%;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 .kick,
@@ -102,6 +102,40 @@ select {
   font-size: 1rem;
 }
 
+.mute.active {
+  background-color: grey;
+}
+
+.tempo {
+  margin: 2rem;
+  width: 30%;
+}
+
+.tempo-slider {
+  -webkit-appearance: none;
+  margin: 1rem 0rem;
+  background-color: rgb(80, 80, 80);
+  border-radius: 1rem;
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tempo-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: rgb(229, 231, 235);
+  box-shadow: inset 2px 2px 10px rgb(230, 227, 227),
+    inset -2px -2px 10px rgb(161, 157, 157);
+  border-radius: 50%;
+  border: 1px solid #000;
+  height: 30px;
+  width: 30px;
+}
+.tempo p {
+  text-align: center;
+  font-size: 1.5rem;
+}
 @keyframes playTrack {
   from {
     transform: scale(1);

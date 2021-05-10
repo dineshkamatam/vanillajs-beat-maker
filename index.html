@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="sequencer">
-      <h1>Beat Maker</h1>
+      <h1 class="title">Beat Maker</h1>
       <div class="kick-track">
         <div class="controls">
           <h1>Kick</h1>
@@ -85,6 +85,17 @@
       </div>
 
       <button class="paly">Play</button>
+      <div class="tempo">
+        <input
+          type="range"
+          name=""
+          class="tempo-slider"
+          min="20"
+          max="300"
+          value="150"
+        />
+        <p>Tempo: <span class="tempo-nr">150</span></p>
+      </div>
     </div>
     <audio src="./sounds/kick-classic.wav" class="kick-sound"></audio>
     <audio src="./sounds/snare-acoustic01.wav" class="snare-sound"></audio>

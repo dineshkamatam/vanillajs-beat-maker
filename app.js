@@ -1,7 +1,7 @@
 class Drumkit {
   constructor() {
     this.pads = document.querySelectorAll(".pad");
-    this.playButton = document.querySelector(".paly");
+    this.playBtn = document.querySelector(".paly");
     this.currntKick = "./sounds/kick-classic.wav";
     this.currntSnare = "./sounds/snare-acoustic01.wav";
     this.currntHihat = "./sounds/hihat-acoustic01.wav";
@@ -13,6 +13,7 @@ class Drumkit {
     this.isPlaying = null;
     this.selects = document.querySelectorAll("select");
     this.muteButns = document.querySelectorAll(".mute");
+    this.tempoSlider = document.querySelector(".tempo-slider");
   }
   activePad() {
     this.classList.toggle("active");
@@ -45,23 +46,23 @@ class Drumkit {
   start() {
     const interval = (60 / this.bpm) * 1000;
     //check if it is playing
-    if (!this.isPlaying) {
+    if (this.isPlaying) {
+      //Clear the interval
+      clearInterval(this.isPlaying);
+      this.isPlaying = null;
+    } else {
       this.isPlaying = setInterval(() => {
         this.repeat();
       }, interval);
-    } else {
-      //clear the interval
-      clearInterval(this.isPlaying);
-      this.isPlaying = null;
     }
   }
   updateBtn() {
     if (!this.isPlaying) {
-      this.playButton.innerText = "stop";
-      this.playButton.classList.add("active");
+      this.playBtn.innerText = "Stop";
+      this.playBtn.classList.add("active");
     } else {
-      this.playButton.innerText = "play";
-      this.playButton.classList.remove("active");
+      this.playBtn.innerText = "Play";
+      this.playBtn.classList.remove("active");
     }
   }
 
@@ -80,6 +81,52 @@ class Drumkit {
         break;
     }
   }
+
+  mute(e) {
+    const muteIndex = e.target.getAttribute("data-track");
+    e.target.classList.toggle("active");
+    if (e.target.classList.contains("active")) {
+      switch (muteIndex) {
+        case "0":
+          this.kickAudio.volume = 0;
+          break;
+        case "1":
+          this.snareAudio.volume = 0;
+          break;
+        case "2":
+          this.hihatAudio.volume = 0;
+          break;
+      }
+    } else {
+      switch (muteIndex) {
+        case "0":
+          this.kickAudio.volume = 1;
+          break;
+        case "1":
+          this.snareAudio.volume = 1;
+          break;
+        case "2":
+          this.hihatAudio.volume = 1;
+          break;
+      }
+    }
+  }
+
+  changeTempo(e) {
+    const tempoText = document.querySelector(".tempo-nr");
+
+    tempoText.innerText = e.target.value;
+  }
+
+  updateTempo(e) {
+    this.bpm = e.target.value;
+    clearInterval(this.isPlaying);
+    this.isPlaying = null;
+    const playBtn = document.querySelector(".paly");
+    if (playBtn.classList.contains("active")) {
+      this.start();
+    }
+  }
 }
 
 const drumkit = new Drumkit();
@@ -93,7 +140,7 @@ drumkit.pads.forEach((pad) => {
   });
 });
 
-drumkit.playButton.addEventListener("click", () => {
+drumkit.playBtn.addEventListener("click", () => {
   drumkit.updateBtn();
   drumkit.start();
 });
@@ -102,4 +149,18 @@ drumkit.selects.forEach((select) => {
   select.addEventListener("change", function (e) {
     drumkit.changeSound(e);
   });
+});
+
+drumkit.muteButns.forEach((btn) => {
+  btn.addEventListener("click", function (e) {
+    drumkit.mute(e);
+  });
+});
+
+drumkit.tempoSlider.addEventListener("input", function (e) {
+  drumkit.changeTempo(e);
+});
+
+drumkit.tempoSlider.addEventListener("change", function (e) {
+  drumkit.updateTempo(e);
 });
